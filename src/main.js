@@ -11,7 +11,8 @@ const createWindow = () => {
         height: 600,
         darkTheme: true,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false
         }
     })
 
