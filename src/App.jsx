@@ -1,15 +1,27 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import Store from "electron-store"
-
-const store = new Store()
-store.set("hiya", "nerd")
+import {
+    HashRouter,
+    Switch,
+    Route, 
+    Link
+} from "react-router-dom"
+import {Client} from "discord.js"
 
 ReactDOM.render(
-    <div>
-        <p>Hello!</p>
-        <p>This is some test text.</p>
-        <p>Hiya, {store.get("hiya")}!</p>
-    </div>,
+    <HashRouter>
+        <Switch>
+            <Route path="/test">
+                <Link to="/">
+                    <p>Just a test.</p>
+                </Link>
+            </Route>
+            <Route path="/">
+                <Link to="/test">
+                    <p>Hiya!</p>
+                </Link>
+            </Route>
+        </Switch>
+    </HashRouter>,
     document.getElementById("main")
 )
