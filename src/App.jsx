@@ -1,15 +1,15 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import {
-    HashRouter,
+    MemoryRouter,
     Switch,
     Route, 
     Link
 } from "react-router-dom"
-import {Client} from "discord.js"
+import Eris from "eris"
 
 ReactDOM.render(
-    <HashRouter>
+    <MemoryRouter>
         <Switch>
             <Route path="/test">
                 <Link to="/">
@@ -22,6 +22,6 @@ ReactDOM.render(
                 </Link>
             </Route>
         </Switch>
-    </HashRouter>,
+    </MemoryRouter>,
     document.getElementById("main")
 )
