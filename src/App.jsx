@@ -1,27 +1,34 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import {
-    MemoryRouter,
-    Switch,
-    Route, 
-    Link
-} from "react-router-dom"
-import Eris from "eris"
+
+import Login from "./Login.jsx"
+
+class App extends React.Component {
+    handleLogin = client => {
+        this.setState({client})
+    }
+
+    handleDisconnect = () => {
+        this.setState({client: null})
+    }
+
+    constructor(props) {
+        super(props)
+        this.state = {client: null}
+    }
+
+    render() {
+        const client = this.state.client
+        if (client) {
+            //return <Dashboard client={client} onDisconnect={this.handleDisconnect} />
+            return client.user.username + "#" + client.user.discriminator
+        } else {
+            return <Login onLogin={this.handleLogin} />
+        }
+    }
+}
 
 ReactDOM.render(
-    <MemoryRouter>
-        <Switch>
-            <Route path="/test">
-                <Link to="/">
-                    <p>Just a test.</p>
-                </Link>
-            </Route>
-            <Route path="/">
-                <Link to="/test">
-                    <p>Hiya!</p>
-                </Link>
-            </Route>
-        </Switch>
-    </MemoryRouter>,
+    <App />,
     document.getElementById("main")
 )

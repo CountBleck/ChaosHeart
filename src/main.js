@@ -1,10 +1,20 @@
-import {app, BrowserWindow, nativeTheme} from "electron"
+import {app, BrowserWindow, nativeTheme, session} from "electron"
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup'))
     app.quit()
 
-const createWindow = () => {
+const start = () => {
+    // Set CSP, at least for webpack-dev-server
+    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+        callback({
+            responseHeaders: {
+                ...details.responseHeaders,
+                "Content-Security-Policy": ["default-src * 'unsafe-eval' 'unsafe-inline'", "connect-src *"]
+            }
+        })
+    })
+
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         width: 800,
@@ -26,5 +36,5 @@ const createWindow = () => {
 }
 
 app
-    .on('ready', createWindow)
+    .on('ready', start)
     .on('window-all-closed', () => app.quit())

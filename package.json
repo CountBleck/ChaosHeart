@@ -50,11 +50,12 @@
     },
     "devDependencies": {
         "@babel/core": "^7.13.16",
+        "@babel/preset-env": "^7.15.8",
         "@babel/preset-react": "^7.13.13",
         "@electron-forge/cli": "^6.0.0-beta.54",
         "@electron-forge/maker-deb": "^6.0.0-beta.54",
         "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
-        "@electron-forge/plugin-webpack": "6.0.0-beta.54",
+        "@electron-forge/plugin-webpack": "^6.0.0-beta.54",
         "@vercel/webpack-asset-relocator-loader": "^1.4.0",
         "babel-loader": "^8.2.2",
         "css-loader": "^4.2.1",
