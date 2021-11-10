@@ -13,10 +13,11 @@ body {
 }
 
 #main {
-    height: 98%;
-    width: 98%;
-    margin: auto;
+    height: 100%;
+    width: 100%;
 }
+
+/* Login styling */
 
 #login {
     height: 100%;
@@ -70,4 +71,44 @@ body {
 
 #submit {
     display: none;
+}
+
+/* Dashboard styling */
+
+#dashboard {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+#dashboard nav {
+    height: 100%;
+    width: 20%;
+    background: #225;
+}
+
+.navlink {
+    display: block;
+    padding: 1em;
+    text-decoration: none;
+    transition: background .5s;
+}
+
+.navlink:hover {
+    background: #339;
+}
+
+.navlink.active {
+    background: #539;
+}
+
+.navlink h3 {
+    color: #fff;
+    overflow: hidden;
+}
+
+#page {
+    height: 96%;
+    width: 80%;
+    margin: 2%;
 }

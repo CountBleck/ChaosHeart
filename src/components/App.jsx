@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 
 import Login from "./Login.jsx"
+import Dashboard from "./Dashboard.jsx"
 
 class App extends React.Component {
     handleLogin = client => {
@@ -20,8 +21,7 @@ class App extends React.Component {
     render() {
         const client = this.state.client
         if (client) {
-            //return <Dashboard client={client} onDisconnect={this.handleDisconnect} />
-            return client.user.username + "#" + client.user.discriminator
+            return <Dashboard client={client} onDisconnect={this.handleDisconnect} />
         } else {
             return <Login onLogin={this.handleLogin} />
         }

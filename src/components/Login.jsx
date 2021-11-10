@@ -1,7 +1,7 @@
 import React from "react"
 import Eris from "eris"
 
-import Icon from "./icon.svg"
+import Icon from "../icon.svg"
 
 export default class Login extends React.Component {
     handleChange = event => {
@@ -10,6 +10,8 @@ export default class Login extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault()
+
+        if (!this.state.token) return
 
         const client = new Eris(this.state.token)
 
