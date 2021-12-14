@@ -2,25 +2,33 @@ module.exports = [
   // Add support for native node modules
   {
     test: /\.node$/,
-    use: 'node-loader',
+    use: "node-loader",
   },
   {
     test: /\.(m?js|node)$/,
     parser: { amd: false },
     use: {
-      loader: '@vercel/webpack-asset-relocator-loader',
+      loader: "@vercel/webpack-asset-relocator-loader",
       options: {
-        outputAssetBase: 'native_modules',
+        outputAssetBase: "native_modules",
       },
     },
   },
   {
     test: /\.jsx?$/,
     use: {
-      loader: 'babel-loader',
+      loader: "babel-loader",
       options: {
         exclude: /node_modules/,
-        presets: ['@babel/preset-react', "@babel/preset-env"]
+        presets: [
+          "@babel/preset-react",
+          [
+            "@babel/preset-env",
+            {
+              targets: {chrome: 89}
+            }
+          ]
+        ]
       }
     }
   }

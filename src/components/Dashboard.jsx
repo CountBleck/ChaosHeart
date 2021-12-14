@@ -9,10 +9,9 @@ import {
 import DashboardPage from "./DashboardPage.jsx"
 
 export default class Dashboard extends React.Component {
-    handleGuilds = () => {
-        this.setState({
-            guilds: [...this.props.client.guilds.values()]
-        })
+    handleGuilds = async () => {
+        const guilds = await this.props.client.getRESTGuilds()
+        this.setState({guilds})
     }
 
     constructor(props) {
@@ -30,8 +29,10 @@ export default class Dashboard extends React.Component {
     }
 
     render() {
+        const {user} = this.props.client
         const {guilds} = this.state
-        const navEntries = this.state.guilds.map(guild => {
+
+        const navlinks = guilds.map(guild => {
             return (
                 <NavLink key={guild.id} to={guild.id} className="navlink">
                     <h3>{guild.name}</h3>
@@ -39,26 +40,23 @@ export default class Dashboard extends React.Component {
             )
         })
 
-        const client = this.props.client
+        const routes = guilds.map(guild => {
+            return (
+                <Route exact path={"/" + guild.id} key={guild.id}>
+                    <DashboardPage guild={guild} user={user} />
+                </Route>
+            )
+        })
 
         return <Router>
             <div id="dashboard">
                 <nav>
-                    {navEntries}
+                    {navlinks}
                 </nav>
                 <Switch>
-                    <Route
-                        exact
-                        path="/:id"
-                        render={({match}) =>
-                            <DashboardPage
-                                guild={guilds.find(guild => guild.id === match.params.id)}
-                                client={client}
-                            />
-                        }
-                    />
+                    {routes}
                     <Route exact path="/">
-                        <DashboardPage client={client} />
+                        <DashboardPage user={user} />
                     </Route>
                 </Switch>
             </div>

@@ -13,7 +13,7 @@ export default class Login extends React.Component {
 
         if (!this.state.token) return
 
-        const client = new Eris(this.state.token)
+        const client = new Eris(this.state.token, {restMode: true})
 
         client
             .once("ready", () => {
