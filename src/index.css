@@ -133,6 +133,7 @@ body {
 
 .command {
     display: flex;
+    flex-direction: column;
     background: #003;
     box-sizing: border-box;
     height: auto;
