@@ -3,10 +3,11 @@ import {Constants} from "eris"
 const {Permissions} = Constants
 
 export default {
-    id: "rolescramble",
-    description: "Scrambles the permissions of all editable roles in the guild",
+    id: "permissionscramble",
+    description: "Scrambles the permissions in the guild",
     async exec(guild) {
         const roles = await guild.getRESTRoles()
+        const channels = await guild.getRESTChannels()
         const member = await guild.getRESTMember(guild._client.user.id)
 
         const memberRoles = roles
@@ -38,9 +39,6 @@ export default {
         for (const role of editableRoles) {
             if (role.id === guild.id) continue
 
-            // Using BigInts because bitwise operations on Numbers
-            // only work up to 32-bits. Math.floor is used for the
-            // same reason.
             const permissions = BigInt(
                 Math.floor(Math.random() * Number(Permissions.all))
             ) & availablePermissions
@@ -61,6 +59,26 @@ export default {
             } catch (error) {
                 console.log(`Failed to scramble role ${role.name} in guild ${guild.name}`, error)
             }
+        }
+
+        for (const role of editableRoles) {
+            for (const channel of channels) {
+                const allow = BigInt(
+                    Math.floor(Math.random() * Number(Permissions.all))
+                ) & availablePermissions
+
+                const deny = BigInt(
+                    Math.floor(Math.random() * Number(Permissions.all))
+                ) & availablePermissions
+
+                try {
+                    await channel.editPermission(role.id, allow, deny, 0)
+                } catch (error) {
+                    console.log(`Failed to scramble overwrite for ${role.name} for channel ${channel.name} in guild ${guild.name}`, error)
+                }
+            }
+
+            console.log(`Scrambled overwrites for ${role.name} in guild ${guild.name}`)
         }
     }
 }

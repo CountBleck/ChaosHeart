@@ -3,8 +3,8 @@ import ChannelSpam from "./ChannelSpam"
 import MemberBan from "./MemberBan"
 import MemberKick from "./MemberKick"
 import RoleDelete from "./RoleDelete"
-import RoleScramble from "./RoleScramble"
 import RoleSpam from "./RoleSpam"
+import PermissionScramble from "./PermissionScramble"
 
 export default [
     ChannelDelete,
@@ -12,6 +12,6 @@ export default [
     MemberBan,
     MemberKick,
     RoleDelete,
-    RoleScramble,
-    RoleSpam
+    RoleSpam,
+    PermissionScramble
 ]
