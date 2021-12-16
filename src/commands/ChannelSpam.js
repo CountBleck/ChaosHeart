@@ -4,13 +4,10 @@ export default {
     id: "channelspam",
     description: "Creates channels with random names",
     async exec(guild) {
-        // Create channels
-
         const currentSize = (await guild.getRESTChannels()).length
-
         let prevCategoryId
 
-        for (let i = currentSize; i < 500; i++) {
+        for (let i = currentSize; i <= 500; i++) {
             const name = randomBytes(64).toString()
             // Types are 0 (text), 2 (voice), and 4 (category).
             const type = Math.random() * 6 & 0b110

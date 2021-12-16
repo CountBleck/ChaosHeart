@@ -2,7 +2,6 @@ import React from "react"
 
 import DashboardHeader from "./DashboardHeader.jsx"
 import CommandPanel from "./CommandPanel.jsx"
-import { TouchBarScrubber } from "electron"
 
 export default class DashboardPage extends React.Component {
     constructor(props) {
