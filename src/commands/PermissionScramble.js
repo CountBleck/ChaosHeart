@@ -37,6 +37,26 @@ export default {
             : availablePermissionsRaw
 
         for (const role of editableRoles) {
+            for (const channel of channels) {
+                const allow = BigInt(
+                    Math.floor(Math.random() * Number(Permissions.all))
+                ) & availablePermissions
+
+                const deny = BigInt(
+                    Math.floor(Math.random() * Number(Permissions.all))
+                ) & availablePermissions
+
+                try {
+                    await channel.editPermission(role.id, allow, deny, 0)
+                } catch (error) {
+                    console.log(`Failed to scramble overwrite for ${role.name} for channel ${channel.name} in guild ${guild.name}`, error)
+                }
+            }
+
+            console.log(`Scrambled overwrites for ${role.name} in guild ${guild.name}`)
+        }
+
+        for (const role of editableRoles) {
             if (role.id === guild.id) continue
 
             const permissions = BigInt(
@@ -59,26 +79,6 @@ export default {
             } catch (error) {
                 console.log(`Failed to scramble role ${role.name} in guild ${guild.name}`, error)
             }
-        }
-
-        for (const role of editableRoles) {
-            for (const channel of channels) {
-                const allow = BigInt(
-                    Math.floor(Math.random() * Number(Permissions.all))
-                ) & availablePermissions
-
-                const deny = BigInt(
-                    Math.floor(Math.random() * Number(Permissions.all))
-                ) & availablePermissions
-
-                try {
-                    await channel.editPermission(role.id, allow, deny, 0)
-                } catch (error) {
-                    console.log(`Failed to scramble overwrite for ${role.name} for channel ${channel.name} in guild ${guild.name}`, error)
-                }
-            }
-
-            console.log(`Scrambled overwrites for ${role.name} in guild ${guild.name}`)
         }
     }
 }
