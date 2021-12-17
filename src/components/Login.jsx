@@ -13,18 +13,24 @@ export default class Login extends React.Component {
 
         if (!this.state.token) return
 
-        const client = new Eris(this.state.token, {restMode: true})
+        const client = new Eris(this.state.token, {
+            restMode: true,
+            autoreconnect: false
+        })
+
+        const handleDisconnect = () => {
+            console.log("That didn't work.")
+            client.disconnect({reconnect: false})
+            this.setState({disabled: false})
+        }
 
         client
             .once("ready", () => {
                 console.log("Client is ready...")
+                client.off("disconnect", handleDisconnect)
                 this.props.onLogin(client)
             })
-            .once("disconnect", () => {
-                    console.log("That didn't work.")
-                    client.disconnect({reconnect: false})
-                    this.setState({disabled: false})
-            })
+            .once("disconnect", handleDisconnect)
         
         this.setState({disabled: true})
 
@@ -47,7 +53,7 @@ export default class Login extends React.Component {
             <h1>ChaosHeart</h1>
             <form onSubmit={this.handleSubmit}>
                 <input
-                    type="text"
+                    type="password"
                     id="token"
                     placeholder="enter bot token"
                     onChange={this.handleChange}
