@@ -1,6 +1,4 @@
 import React from "react"
-
-import DashboardHeader from "./DashboardHeader.jsx"
 import CommandPanel from "./CommandPanel.jsx"
 
 export default class DashboardPage extends React.Component {
@@ -26,11 +24,12 @@ export default class DashboardPage extends React.Component {
         if (!guild) {
             const username = user.username + "#" + user.discriminator
             return <div id="page">
-                <DashboardHeader title="Welcome">
+                <div id="header">
+                    <h1>Welcome</h1>
                     <p>You are currently logged in as <b>{username}</b>.</p>
                     <p>Select a guild from the left to get started.</p>
                     <p>Then, you can execute commands on the dashboard.</p>
-                </DashboardHeader>
+                </div>
             </div>
         }
 
@@ -40,7 +39,8 @@ export default class DashboardPage extends React.Component {
             : true
 
         return <div id="page">
-            <DashboardHeader title={guild.name}>
+            <div id="header">
+                <h1>{guild.name}</h1>
                 <p>Select a command below, and have fun!</p>
                 {
                     !admin && <p>
@@ -50,7 +50,7 @@ export default class DashboardPage extends React.Component {
                         </b>
                     </p>
                 }
-            </DashboardHeader>
+            </div>
             <CommandPanel guild={guild} />
         </div>
     }
