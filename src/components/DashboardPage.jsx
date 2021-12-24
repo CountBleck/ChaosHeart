@@ -19,7 +19,7 @@ export default class DashboardPage extends React.Component {
     }
 
     render() {
-        const {guild, user} = this.props
+        const {guild, user, onTaskChange, tasks: allTasks} = this.props
 
         if (!guild) {
             const username = user.username + "#" + user.discriminator
@@ -37,11 +37,21 @@ export default class DashboardPage extends React.Component {
         const admin = member 
             ? member.permissions.has("administrator")
             : true
+        
+        if (!allTasks.has(guild.id))
+            allTasks.set(guild.id, new Map())
+        
+        const tasks = allTasks.get(guild.id)
+        const progress = [...tasks.keys()].map(id =>
+            <div key={id} className="task">
+                <b>{id}</b>: Running!
+            </div>
+        )
 
         return <div id="page">
             <div id="header">
                 <h1>{guild.name}</h1>
-                <p>Select a command below, and have fun!</p>
+                <p>Select a command below to get started.</p>
                 {
                     !admin && <p>
                         <b>
@@ -51,7 +61,12 @@ export default class DashboardPage extends React.Component {
                     </p>
                 }
             </div>
-            <CommandPanel guild={guild} />
+            {
+                !!progress.length && <div id="tasks">
+                    {progress}
+                </div>
+            }
+            <CommandPanel guild={guild} tasks={tasks} onTaskChange={onTaskChange} />
         </div>
     }
 }

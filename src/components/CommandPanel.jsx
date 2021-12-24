@@ -4,10 +4,16 @@ import Command from "./Command.jsx"
 
 export default class CommandPanel extends React.Component {
     render() {
-        const {guild} = this.props
+        const {guild, tasks, onTaskChange} = this.props
 
         const commands = CommandRegistry.map(command =>
-            <Command key={command.id} command={command} guild={guild} />
+            <Command
+                key={command.id}
+                command={command}
+                guild={guild}
+                tasks={tasks}
+                onTaskChange={onTaskChange}
+            />
         )
 
         return <div id="panel">

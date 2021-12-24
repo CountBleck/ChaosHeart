@@ -2,20 +2,25 @@ import React from "react"
 
 export default class Command extends React.Component {
     handleClick = () => {
-        const {command, guild} = this.props
+        const {command, guild, tasks, onTaskChange} = this.props
 
+        const result = command.exec(guild)
+            .then(() => {
+                tasks.delete(command.id)
+                this.setState({disabled: false})
+                onTaskChange()
+            })
+
+        tasks.set(command.id, result)
         this.setState({disabled: true})
-
-        command.exec(guild)
-
-        setTimeout(() => {
-            this.setState({disabled: false})
-        }, 1000)
+        onTaskChange()
     }
 
     constructor(props) {
         super(props)
-        this.state = {disabled: false}
+
+        const disabled = this.props.tasks.has(this.props.command.id)
+        this.state = {disabled}
     }
 
     render() {

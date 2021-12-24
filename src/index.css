@@ -115,10 +115,25 @@ body {
     overflow-y: auto;
 }
 
-#page::-webkit-scrollbar {
+::-webkit-scrollbar {
     background: #999;
     width: .5em;
     border-radius: 5px;
+}
+
+/* Task list styling */
+
+#tasks {
+    background: #111;
+    margin: 1em 0;
+    padding: .5em;
+    border-radius: 5px;
+}
+
+.task {
+    background: #222;
+    margin: .5em 0;
+    padding: .5em;
 }
 
 /* Command panel styling */

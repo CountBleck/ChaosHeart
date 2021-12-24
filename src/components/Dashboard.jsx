@@ -14,9 +14,15 @@ export default class Dashboard extends React.Component {
         this.setState({guilds})
     }
 
+    handleTaskChange = () => {
+        console.log(this.tasks)
+        this.forceUpdate()
+    }
+
     constructor(props) {
         super(props)
         this.state = {guilds: []}
+        this.tasks = new Map()
     }
 
     componentDidMount() {
@@ -43,7 +49,7 @@ export default class Dashboard extends React.Component {
         const routes = guilds.map(guild => {
             return (
                 <Route exact path={"/" + guild.id} key={guild.id}>
-                    <DashboardPage guild={guild} user={user} />
+                    <DashboardPage guild={guild} user={user} tasks={this.tasks} onTaskChange={this.handleTaskChange} />
                 </Route>
             )
         })
