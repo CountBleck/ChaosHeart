@@ -1,7 +1,7 @@
 export default {
     id: "channeldelete",
     description: "Deletes all channels in the guild",
-    async exec(guild) {
+    async* exec(guild) {
         const channels = await guild.getRESTChannels()
 
         for (const channel of channels) {

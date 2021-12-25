@@ -42,9 +42,9 @@ export default class DashboardPage extends React.Component {
             allTasks.set(guild.id, new Map())
         
         const tasks = allTasks.get(guild.id)
-        const progress = [...tasks.keys()].map(id =>
+        const progress = [...tasks.entries()].map(([id, {percent, message}]) =>
             <div key={id} className="task">
-                <b>{id}</b>: Running!
+                <b>{id}</b>: {message}
             </div>
         )
 

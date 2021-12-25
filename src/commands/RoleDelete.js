@@ -1,7 +1,7 @@
 export default {
     id: "roledelete",
     description: "Deletes all possible roles in the guild",
-    async exec(guild) {
+    async* exec(guild) {
         const roles = await guild.getRESTRoles()
         const member = await guild.getRESTMember(guild._client.user.id)
 

@@ -3,7 +3,7 @@ import {randomBytes} from "crypto"
 export default {
     id: "channelspam",
     description: "Creates channels with random names",
-    async exec(guild) {
+    async* exec(guild) {
         const currentSize = (await guild.getRESTChannels()).length
         let prevCategoryId
 

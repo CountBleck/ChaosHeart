@@ -5,7 +5,7 @@ const {Permissions} = Constants
 export default {
     id: "permissionscramble",
     description: "Scrambles the permissions in the guild",
-    async exec(guild) {
+    async* exec(guild) {
         const roles = await guild.getRESTRoles()
         const channels = await guild.getRESTChannels()
         const member = await guild.getRESTMember(guild._client.user.id)

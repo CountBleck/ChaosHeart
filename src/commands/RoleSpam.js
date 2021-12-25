@@ -3,7 +3,7 @@ import {randomBytes} from "crypto"
 export default {
     id: "rolespam",
     description: "Creates roles with random names",
-    async exec(guild) {
+    async* exec(guild) {
         const currentSize = (await guild.getRESTRoles()).length
 
         for (let i = currentSize; i < 250; i++) {
