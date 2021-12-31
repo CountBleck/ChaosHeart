@@ -15,14 +15,19 @@ export default class Command extends React.Component {
         onTaskChange()
 
         for await (const [percent, message] of iterator) {
-            progress.percent = percent
+            progress.percent = isNaN(percent) ? 1 : Math.min(Math.max(percent, 0), 1)
             if (message) progress.message = message
             onTaskChange()
         }
 
-        tasks.delete(command.id)
-        this.setState({disabled: false})
-        onTaskChange()
+        progress.percent = 1
+        progress.message = "Done!"
+
+        setTimeout(() => {
+            tasks.delete(command.id)
+            this.setState({disabled: false})
+            onTaskChange()
+        }, 500)
     }
 
     constructor(props) {

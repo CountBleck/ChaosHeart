@@ -136,6 +136,19 @@ body {
     padding: .5em;
 }
 
+@property --progress {
+    syntax: "<percent>";
+    inherits: false;
+    initial-value: 0%;
+}
+
+.progress {
+    width: 100%;
+    height: 2%;
+    background: linear-gradient(to right, #06c var(--progress), #666 var(--progress) 100%);
+    border-radius: 10px;
+}
+
 /* Command panel styling */
 
 #panel {

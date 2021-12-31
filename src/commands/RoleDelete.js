@@ -8,16 +8,22 @@ export default {
         const highestPosition = roles
             .filter(role => member.roles.includes(role.id))
             .reduce((a, x) => a < x.position ? x.position : x, 0)
+        
+        let skipped = 0
+        for (let i = 0; i < roles.length; i++) {
+            const role = roles[i]
+            yield [i / roles.length, `Deleted ${i - skipped} roles out of ${roles.length}, skipped ${skipped}`]
 
-        for (const role of roles) {
             // @everyone and roles higher in the role hierarchy
-            if (role.id === guild.id || role.position > highestPosition) continue
+            if (role.id === guild.id || role.position > highestPosition) {
+                skipped++
+                continue
+            }
 
             try {
                 await guild.deleteRole(role.id)
-                console.log(`Deleted role ${role.name} from guild ${guild.name}`)
             } catch (error) {
-                console.error(`Error in deleting role ${role.name} from guild ${guild.name}:`, error)
+                skipped++
             }
         }
     }

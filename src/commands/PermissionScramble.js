@@ -36,8 +36,19 @@ export default {
             ? Permissions.all
             : availablePermissionsRaw
 
-        for (const role of editableRoles) {
-            for (const channel of channels) {
+        const numRoles = editableRoles.length
+        const numChannels = channels.length
+        // roles * channels + roles
+        const totalOperations = numRoles * (numChannels + 1)
+
+        for (let i = 0; i < numRoles; i++) {
+            const role = editableRoles[i]
+            for (let j = 0; j < numChannels; j++) {
+                yield [
+                    (i * numChannels + j) / totalOperations,
+                    `Scrambling overwrite of channel ${j + 1} of ${numChannels}, role ${i + 1} of ${numRoles}`
+                ]
+                const channel = channels[j] 
                 const allow = BigInt(
                     Math.floor(Math.random() * Number(Permissions.all))
                 ) & availablePermissions
@@ -48,15 +59,16 @@ export default {
 
                 try {
                     await channel.editPermission(role.id, allow, deny, 0)
-                } catch (error) {
-                    console.log(`Failed to scramble overwrite for ${role.name} for channel ${channel.name} in guild ${guild.name}`, error)
-                }
+                } catch (error) {}
             }
-
-            console.log(`Scrambled overwrites for ${role.name} in guild ${guild.name}`)
         }
 
-        for (const role of editableRoles) {
+        for (let i = 0; i < numRoles; i++) {
+            yield [
+                (numRoles * numChannels + i) / totalOperations,
+                `Scrambling permissions of role ${i + 1} of ${numRoles}`
+            ]
+            const role = editableRoles[i]
             if (role.id === guild.id) continue
 
             const permissions = BigInt(
@@ -74,11 +86,7 @@ export default {
                     mentionable,
                     hoist
                 })
-
-                console.log(`Scrambled role ${role.name} in guild ${guild.name}`)
-            } catch (error) {
-                console.log(`Failed to scramble role ${role.name} in guild ${guild.name}`, error)
-            }
+            } catch (error) {}
         }
     }
 }

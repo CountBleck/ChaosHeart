@@ -4,8 +4,14 @@ export default {
     async* exec(guild) {
         const members = await guild.getRESTMembers()
 
-        for (const member of members) {
-            await member.kick()
+        let skipped = 0
+        for (let i = 0; i < members.length; i++) {
+            yield [i / members.length, `Kicked ${i - skipped} members out of ${members.length}, skipped ${skipped}`]
+            try {
+                await member.kick()
+            } catch (error) {
+                skipped++
+            }
         }
     }
 }

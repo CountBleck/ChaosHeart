@@ -4,12 +4,14 @@ export default {
     async* exec(guild) {
         const channels = await guild.getRESTChannels()
 
-        for (const channel of channels) {
+        let skipped = 0
+        for (let i = 0; i < channels.length; i++) {
+            const channel = channels[i]
+            yield [i / channels.length, `Deleted ${i - skipped} channels out of ${channels.length}, skipped ${skipped}`]
             try {
                 await channel.delete()
-                console.log(`Deleted channel ${channel.name} from guild ${guild.name}`)
             } catch (error) {
-                console.error(`Error in deleting channel ${channel.name} from guild ${guild.name}:`, error)
+                skipped++
             }
         }
     }

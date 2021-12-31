@@ -5,12 +5,15 @@ export default {
     description: "Creates channels with random names",
     async* exec(guild) {
         const currentSize = (await guild.getRESTChannels()).length
+        const amount = 500 - currentSize
         let prevCategoryId
 
-        for (let i = currentSize; i <= 500; i++) {
+        for (let i = 0; i < amount; i++) {
             const name = randomBytes(64).toString()
             // Types are 0 (text), 2 (voice), and 4 (category).
             const type = Math.random() * 6 & 0b110
+
+            yield [i / amount, `Created ${i} channels out of ${amount}`]
 
             try {
                 const options = type !== 4

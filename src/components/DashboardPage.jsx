@@ -44,7 +44,12 @@ export default class DashboardPage extends React.Component {
         const tasks = allTasks.get(guild.id)
         const progress = [...tasks.entries()].map(([id, {percent, message}]) =>
             <div key={id} className="task">
-                <b>{id}</b>: {message}
+                <p>
+                    <b>{id}</b>: {message}
+                </p>
+                <div className="progress" style={{"--progress": percent * 100 + "%"}}>
+                    &nbsp;
+                </div>
             </div>
         )
 
