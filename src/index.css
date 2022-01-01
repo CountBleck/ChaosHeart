@@ -192,10 +192,18 @@ body {
     transition: background .5s;
 }
 
+.command button.abort {
+    background: #622;
+}
+
 .command button:hover {
     background: #22a;
 }
 
+.command button.abort:hover {
+    background: #a22;
+}
+
 .command button:disabled {
-    background: #222;
+    background: #555;
 }
