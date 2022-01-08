@@ -142,10 +142,27 @@ body {
     initial-value: 0%;
 }
 
+@property --color {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #0000;
+}
+
+@keyframes progress-color {
+    from {
+        --color: #0dc;
+    }
+
+    to {
+        --color: #0d7;
+    }
+}
+
 .progress {
     width: 100%;
     height: 2%;
-    background: linear-gradient(to right, #06c var(--progress), #666 var(--progress) 100%);
+    animation: progress-color 1s linear infinite alternate;
+    background: linear-gradient(to right, var(--color) var(--progress), #666 var(--progress) 100%);
     border-radius: 10px;
 }
 
@@ -193,7 +210,7 @@ body {
 }
 
 .command button.abort {
-    background: #622;
+    background: #822;
 }
 
 .command button:hover {
@@ -206,4 +223,8 @@ body {
 
 .command button:disabled {
     background: #555;
+}
+
+.command button:disabled:hover {
+    background: #666;
 }
