@@ -5,6 +5,7 @@ import MemberKick from "./MemberKick"
 import RoleDelete from "./RoleDelete"
 import RoleSpam from "./RoleSpam"
 import PermissionScramble from "./PermissionScramble"
+import PingSpam from "./PingSpam"
 
 export default [
     ChannelDelete,
@@ -13,5 +14,6 @@ export default [
     MemberKick,
     RoleDelete,
     RoleSpam,
-    PermissionScramble
+    PermissionScramble,
+    PingSpam
 ]
