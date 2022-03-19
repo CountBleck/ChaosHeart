@@ -7,6 +7,7 @@ import {
 } from "react-router-dom"
 
 import DashboardPage from "./DashboardPage.jsx"
+import CommandManager from "../commands/CommandManager.js"
 
 export default class Dashboard extends React.Component {
     handleGuilds = async () => {
@@ -14,15 +15,10 @@ export default class Dashboard extends React.Component {
         this.setState({guilds})
     }
 
-    handleTaskChange = () => {
-        console.log(this.tasks)
-        this.forceUpdate()
-    }
-
     constructor(props) {
         super(props)
         this.state = {guilds: []}
-        this.tasks = new Map()
+        this.manager = new CommandManager()
     }
 
     componentDidMount() {
@@ -49,7 +45,7 @@ export default class Dashboard extends React.Component {
         const routes = guilds.map(guild => {
             return (
                 <Route exact path={"/" + guild.id} key={guild.id}>
-                    <DashboardPage guild={guild} user={user} tasks={this.tasks} onTaskChange={this.handleTaskChange} />
+                    <DashboardPage guild={guild} user={user} manager={this.manager}/>
                 </Route>
             )
         })

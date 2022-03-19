@@ -2,15 +2,31 @@ import React from "react"
 import CommandPanel from "./CommandPanel.jsx"
 
 export default class DashboardPage extends React.Component {
+    onTaskChange = () => {
+        this.setState({
+            commands: [
+                ...this.props.manager
+                    .getGuildStatus(this.props.guild)
+                    .values()
+            ]
+        })
+    }
+
     constructor(props) {
         super(props)
-        this.state = {member: false}
+        this.state = {
+            member: null,
+            commands: []
+        }
     }
 
     componentDidMount() {
-        const {guild, user} = this.props
+        const {guild, user, manager} = this.props
 
         if (guild) {
+            manager.onTaskChange = this.onTaskChange
+            this.onTaskChange()
+
             guild.getRESTMember(user.id)
                 .then(member => {
                     this.setState({member})
@@ -19,7 +35,7 @@ export default class DashboardPage extends React.Component {
     }
 
     render() {
-        const {guild, user, onTaskChange, tasks: allTasks} = this.props
+        const {guild, user, manager} = this.props
 
         if (!guild) {
             const username = user.username + "#" + user.discriminator
@@ -37,21 +53,19 @@ export default class DashboardPage extends React.Component {
         const admin = member 
             ? member.permissions.has("administrator")
             : true
-        
-        if (!allTasks.has(guild.id))
-            allTasks.set(guild.id, new Map())
-        
-        const tasks = allTasks.get(guild.id)
-        const progress = [...tasks.entries()].map(([id, {percent, message}]) =>
-            <div key={id} className="task">
-                <p>
-                    <b>{id}</b>: {message}
-                </p>
-                <div className="progress" style={{"--progress": percent * 100 + "%"}}>
-                    &nbsp;
+
+        const progress = this.state.commands
+            .filter(({running}) => running)
+            .map(({id, percent, message}) =>
+                <div key={id} className="task">
+                    <p>
+                        <b>{id}</b>: {message}
+                    </p>
+                    <div className="progress" style={{"--progress": percent * 100 + "%"}}>
+                        &nbsp;
+                    </div>
                 </div>
-            </div>
-        )
+            )
 
         return <div id="page">
             <div id="header">
@@ -71,7 +85,7 @@ export default class DashboardPage extends React.Component {
                     {progress}
                 </div>
             }
-            <CommandPanel guild={guild} tasks={tasks} onTaskChange={onTaskChange} />
+            <CommandPanel guild={guild} manager={manager} />
         </div>
     }
 }
