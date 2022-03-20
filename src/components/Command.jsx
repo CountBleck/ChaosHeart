@@ -2,7 +2,8 @@ import React from "react"
 
 export default class Command extends React.Component {
     handleAbort = () => {
-        this.props.manager.abort()
+        const {command, guild, manager} = this.props
+        manager.abort(guild, command.id)
     }
     
     handleExecute = async () => {

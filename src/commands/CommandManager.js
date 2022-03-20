@@ -43,11 +43,13 @@ export default class CommandManager {
     async execute(guild, id) {
         const status = this.getCommandStatus(guild, id)
 
-        if (status.running) return
+        if (status.running)
+            return
 
         status.percent = 0
         status.message = "Running..."
         status.running = true
+        status.aborting = false
         this.onTaskChange()
 
         const iterator = this.getCommandFromId(id).exec(guild)
@@ -58,21 +60,19 @@ export default class CommandManager {
             if (message)
                 status.message = message
 
-            const aborting = status.aborting
-
-            if (aborting)
-                status.aborting = false
+            if (status.aborting)
+                break
 
             this.onTaskChange()
-
-            if (aborting)
-                break
         }
+
+        status.running = false
+        this.onTaskChange()
     }
 
     abort(guild, id) {
         const status = this.getCommandStatus(guild, id)
-        status.aborted = true
+        status.aborting = true
         this.onTaskChange()
     }
 }
