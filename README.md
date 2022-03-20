@@ -8,6 +8,7 @@ install its dependencies, and run it with `electron-forge start`.
 ## Installation
 ```bash
 git clone https://github.com/CountBleck/ChaosHeart
+cd ChaosHeart
 yarn # or npm i
 yarn start # or npm start
 ```
